@@ -7,24 +7,92 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <style>
-        :root { --primary: #333333; --accent: #38bdf8; --bg: #fdfbf7; --card: #ffffff; --text-main: #2d3436; --text-muted: #636e72; --success: #10b981; }
-        body { background-color: var(--bg); font-family: 'Inter', sans-serif; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
-        .container { background: var(--card); max-width: 500px; width: 100%; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #f1ede4; }
+        :root {
+            --primary: #333333;
+            --accent: #38bdf8;
+            --bg: #fdfbf7;
+            --card: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --success: #10b981;
+        }
+
+        body { 
+            background-color: var(--bg); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 40px 20px; 
+            display: flex; 
+            justify-content: center;
+        }
+
+        .container { 
+            background: var(--card); 
+            max-width: 500px; 
+            width: 100%; 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+            border: 1px solid #f1ede4;
+        }
+
         .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { font-size: 28px; margin: 0; color: var(--text-main); font-weight: 700; }
+        .header h1 { font-size: 28px; margin: 0; color: var(--text-main); font-weight: 700; white-space: nowrap; }
+        .header p { font-size: 15px; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+
         .form-group { margin-bottom: 24px; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
-        input, select, textarea { width: 100%; padding: 14px 16px; border: 1.5px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: #fafafa; box-sizing: border-box; }
-        .upload-btn { background-color: #f8fafc; border: 2px dashed #cbd5e1; color: #475569; padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
-        .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .upload-success-text { color: var(--success); font-size: 13px; font-weight: 600; display: none; margin-top: 8px; text-align: center; }
-        .preview-box { display: none; margin-top: 15px; text-align: center; }
-        .preview-box img, .preview-box video { max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #eee; }
-        .submit-btn { width: 100%; padding: 18px; background: var(--primary); color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
+        .form-group span { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 400; line-height: 1.4; }
+
+        input, select, textarea { 
+            width: 100%; padding: 14px 16px; border: 1.5px solid #e0e0e0; border-radius: 12px; 
+            font-size: 14px; background: #fafafa; transition: all 0.3s ease; box-sizing: border-box;
+        }
+
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--accent); background: #fff; outline: none; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        /* Styling Tambahan untuk Total Harga & Notes */
+        .total-box {
+            display: none; background-color: #f0fdf4; border: 1.5px dashed #22c55e; 
+            padding: 16px; border-radius: 14px; margin-top: 15px; text-align: center;
+            transition: all 0.3s ease;
+        }
+        .total-box label { color: #166534; font-size: 13px; margin-bottom: 4px; display: block; font-weight: 600;}
+        .total-box .price { font-size: 22px; font-weight: 700; color: #15803d; margin: 0; }
+
+        .note-warm {
+            display: block; font-size: 13px; color: #b45309; background: #fef3c7; 
+            padding: 14px; border-radius: 12px; margin-bottom: 14px; line-height: 1.6; border: 1px solid #fde68a;
+        }
+
+        .guide-box { 
+            background-color: #f0f9ff; border: 1px solid #e0f2fe; padding: 24px; border-radius: 16px; margin-bottom: 30px;
+        }
+        .guide-box h3 { font-size: 14px; color: #0369a1; margin-top: 0; margin-bottom: 12px; }
+
+        /* Style khusus untuk Tombol Upload Cloudinary */
+        .upload-btn {
+            background-color: #f8fafc; border: 2px dashed #cbd5e1; color: #475569;
+            padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;
+        }
+        .upload-btn:hover { border-color: var(--accent); color: var(--accent); background-color: #f0f9ff; }
+        
+        .upload-success-text { color: var(--success); font-size: 13px; font-weight: 600; display: none; }
+
+        button.submit-btn { 
+            width: 100%; padding: 18px; background: var(--primary); color: #fff; border: none; 
+            border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 10px;
+        }
+        button.submit-btn:hover { background: #000; transform: translateY(-2px); }
+        button.submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
         #success-message { display: none; text-align: center; padding: 20px; }
-        .price-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 24px; }
-        small { color: var(--text-muted); font-size: 11px; display: block; margin-top: 5px; line-height: 1.4; }
+        #success-message h2 { color: var(--text-main); font-size: 22px; margin-bottom: 16px; }
+        #success-message p { color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+        hr { border: 0; border-top: 1px solid #eee; margin: 30px 0; }
     </style>
 </head>
 <body>
@@ -33,163 +101,250 @@
     <div id="form-content">
         <div class="header">
             <h1>💖 Hana Memoria</h1>
-            <p>Menghidupkan kembali kenangan indah 💫</p>
+            <p>Menghidupkan kembali kenangan indah lewat foto pilihanmu 💫</p>
         </div>
 
         <form id="orderForm">
             <div class="form-group">
                 <label>👤 Nama Lengkap</label>
-                <input type="text" name="nama" required placeholder="Contoh: Budi Santoso">
+                <input type="text" name="nama" required placeholder="Nama Lengkap">
             </div>
 
             <div class="form-group">
-                <label>📱 Nomor WhatsApp</label>
-                <input type="tel" name="whatsapp" required placeholder="0812xxxxxx">
+                <label>📱 Nomor WhatsApp (Aktif)</label>
+                <span>Sistem akan otomatis menyesuaikan format. (Contoh: 0812... atau 62812...)</span>
+                <input type="tel" name="whatsapp" id="wa_input" required placeholder="0812xxxxxx">
             </div>
 
             <div class="form-group">
                 <label>🎁 Pilih Jenis Produk</label>
-                <select name="jenis" id="pilih_produk" required>
-                    <option value="Gantungan Kunci">Gantungan Kunci - Rp20.000</option>
-                    <option value="Figura" disabled>Figura (Soon) - Rp50.000</option>
+                <select name="jenis" id="jenis_input" required>
+                    <option value="" disabled selected>Pilih Produk...</option>
+                    <option value="Gantungan Kunci">Gantungan Kunci</option>
+                    <option value="Figura" disabled>Figura (Coming Soon ⏳)</option>
+                    <option value="Frame 12 Bulan" disabled>Frame 12 Bulan (Coming Soon ⏳)</option>
                 </select>
             </div>
-
+            
             <div class="form-group">
                 <label>🔢 Jumlah Pesanan</label>
-                <input type="number" name="jumlah" id="input_jumlah" value="1" min="1" required>
-            </div>
-
-            <div class="price-box">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 14px; font-weight: 600; color: #64748b;">Estimasi Total:</span>
-                    <span id="total_pembayaran" style="font-size: 18px; font-weight: 700; color: #333;">Rp20.000</span>
+                <input type="number" name="jumlah" id="jumlah_input" min="1" value="1" required>
+                
+                <div id="total_pembayaran_container" class="total-box">
+                    <label>💰 Estimasi Total Pembayaran</label>
+                    <p id="text_total" class="price">Rp 0</p>
                 </div>
             </div>
 
-            <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+            <hr>
+            
+            <div class="guide-box">
+                <h3>📌 Panduan Upload Foto & Video</h3>
+                <p style="font-size: 13px; color: #075985; line-height: 1.6; margin: 0;">
+                    Tidak perlu lagi repot pakai Google Drive! Klik tombol di bawah ini untuk langsung mengunggah foto dan video dari galerimu. Sistem kami akan memprosesnya otomatis 🚀.
+                </p>
+            </div>
 
             <div class="form-group">
-                <label>🖼️ Foto Terbaikmu</label>
+                <label>🖼️ Upload Foto Terbaikmu</label>
                 <button type="button" id="btn_upload_foto" class="upload-btn">Pilih Foto 📷</button>
-                <span id="status_foto" class="upload-success-text">✅ Foto berhasil diunggah!</span>
-                <div id="preview_foto_container" class="preview-box"><img id="preview_foto" src=""></div>
+                <span id="status_foto" class="upload-success-text" style="display: none;">✅ Foto berhasil diunggah!</span>
+                
+                <div id="preview_foto_container" style="display: none; margin-top: 15px; text-align: center;">
+                    <img id="preview_foto" src="" style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                </div>
                 <input type="hidden" name="link_foto_raw" id="link_foto_raw">
             </div>
 
             <div class="form-group">
-                <label>🎥 Video Kenangan</label>
+                <label>🎥 Upload Video Kenangan</label>
+                
+                <div class="note-warm">
+                    ✨ <b>Catatan Kecil:</b> Pastikan durasi videomu cukup <b>15-30 detik</b> saja ya kak! Biar proses uploadnya wuzz.. wuzz.. super cepat, minim kendala, dan hasilnya tetap cantik! 🥰🫶
+                </div>
+
                 <button type="button" id="btn_upload_video" class="upload-btn">Pilih Video 🎬</button>
-                <small>*Maksimal ukuran 30MB & durasi pendek untuk proses cepat.</small>
-                <span id="status_video" class="upload-success-text">✅ Video berhasil diunggah!</span>
-                <div id="preview_video_container" class="preview-box"><video id="preview_video" controls></video></div>
+                <span id="status_video" class="upload-success-text" style="display: none;">✅ Video berhasil diunggah!</span>
+                
+                <div id="preview_video_container" style="display: none; margin-top: 15px; text-align: center;">
+                    <video id="preview_video" controls style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></video>
+                </div>
                 <input type="hidden" name="link_video_raw" id="link_video_raw">
             </div>
 
+            <div class="form-group">
+                <label>📍 Provinsi Tujuan</label>
+                <select name="provinsi" required>
+                    <option value="" disabled selected>Pilih Provinsi...</option>
+                    <option value="Jawa Barat">Jawa Barat</option>
+                    <option value="DKI Jakarta">DKI Jakarta</option>
+                    <option value="Jawa Tengah">Jawa Tengah</option>
+                    <option value="Jawa Timur">Jawa Timur</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>🏠 Alamat Lengkap (Detail)</label>
+                <textarea name="alamat" rows="3" required placeholder="Nama jalan, No rumah, RT/RW, Kecamatan, Kota"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>💌 Pesan / Ucapan (Opsional)</label>
+                <textarea name="ucapan" rows="2" placeholder="Selamat ulang tahun, semoga selalu bahagia ✨"></textarea>
+            </div>
+
             <button type="submit" id="submitBtn" class="submit-btn">Kirim Pesanan 🚀</button>
+            <p style="font-size: 11px; text-align: center; color: #999; margin-top: 15px;">Kami akan memprosesnya dengan penuh perhatian dan sepenuh hati 💝</p>
         </form>
     </div>
 
     <div id="success-message">
-        <h2 style="color: var(--success);">✅ Pesanan Diterima!</h2>
-        <p>Terima kasih, admin kami akan segera menghubungi Anda untuk konfirmasi pembayaran.</p>
+        <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+        <h2>Terima kasih, pesananmu sudah kami terima 💖</h2>
+        <p>Tim Hana Memoria akan segera memproses pesanan dan menghubungi kamu melalui WhatsApp 😊</p>
     </div>
 </div>
 
 <script>
-    // --- KONFIGURASI ---
     const CLOUD_NAME = "dg5sjaueq"; 
     const UPLOAD_PRESET = "hm_preset"; 
-    const WORKER_URL = "ISI_DENGAN_URL_WORKER_KAMU"; 
 
-    const hargaProduk = {
+    // ==========================================
+    // DAFTAR HARGA (BISA DIEDIT NANTI)
+    // ==========================================
+    const HARGA_PRODUK = {
         "Gantungan Kunci": 20000,
-        "Figura": 50000
+        "Figura": 50000,        // Ubah harga Figura di sini saat rilis
+        "Frame 12 Bulan": 85000 // Ubah harga Frame di sini saat rilis
     };
 
-    // --- FUNGSI HARGA ---
+    // Fungsi Hitung Total Harga
+    const jenisSelect = document.getElementById('jenis_input');
+    const jumlahInput = document.getElementById('jumlah_input');
+    const totalContainer = document.getElementById('total_pembayaran_container');
+    const textTotal = document.getElementById('text_total');
+
     function hitungTotal() {
-        const jenis = document.getElementById('pilih_produk').value;
-        const jumlah = document.getElementById('input_jumlah').value || 1;
-        const total = (hargaProduk[jenis] || 0) * jumlah;
-
-        document.getElementById('total_pembayaran').innerText = new Intl.NumberFormat('id-ID', {
-            style: 'currency', currency: 'IDR', minimumFractionDigits: 0
-        }).format(total);
-    }
-
-    // --- FUNGSI UPLOAD ---
-    function createWidget(type, buttonId, statusId, previewId, containerId, hiddenInputId) {
-        return cloudinary.createUploadWidget({
-            cloudName: CLOUD_NAME,
-            uploadPreset: UPLOAD_PRESET,
-            sources: ['local', 'camera'],
-            clientAllowedFormats: type === 'foto' ? ['image'] : ['video'],
-            multiple: false,
-            maxFileSize: 30000000, // Batas 30MB
-            chunkSize: 5000000     // Percepat upload video
-        }, (error, result) => {
-            if (error) {
-                if (error.statusText === "File size too large") {
-                    alert("⚠️ File terlalu besar! Maksimal 30MB ya kak.");
-                }
-                return;
-            }
-            if (result && result.event === "success") {
-                document.getElementById(hiddenInputId).value = result.info.secure_url;
-                document.getElementById(statusId).style.display = "block";
-                document.getElementById(buttonId).innerText = "Ganti " + (type === 'foto' ? 'Foto' : 'Video');
-                document.getElementById(containerId).style.display = "block";
-                document.getElementById(previewId).src = result.info.secure_url;
-            }
-        });
-    }
-
-    const widgetFoto = createWidget('foto', 'btn_upload_foto', 'status_foto', 'preview_foto', 'preview_foto_container', 'link_foto_raw');
-    const widgetVideo = createWidget('video', 'btn_upload_video', 'status_video', 'preview_video', 'preview_video_container', 'link_video_raw');
-
-    // --- EVENT LISTENERS ---
-    document.getElementById("btn_upload_foto").addEventListener("click", () => widgetFoto.open());
-    document.getElementById("btn_upload_video").addEventListener("click", () => widgetVideo.open());
-    document.getElementById('pilih_produk').addEventListener('change', hitungTotal);
-    document.getElementById('input_jumlah').addEventListener('input', hitungTotal);
-
-    // --- KIRIM FORM ---
-    document.getElementById('orderForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
+        const jenis = jenisSelect.value;
+        const jumlah = parseInt(jumlahInput.value) || 0;
         
-        if (!document.getElementById("link_foto_raw").value || !document.getElementById("link_video_raw").value) {
-            alert("Harap upload foto dan video terlebih dahulu!");
+        if (jenis && HARGA_PRODUK[jenis] && jumlah > 0) {
+            const total = HARGA_PRODUK[jenis] * jumlah;
+            // Format ke Rupiah
+            textTotal.innerText = "Rp " + total.toLocaleString('id-ID');
+            totalContainer.style.display = "block";
+        } else {
+            totalContainer.style.display = "none";
+        }
+    }
+
+    jenisSelect.addEventListener('change', hitungTotal);
+    jumlahInput.addEventListener('input', hitungTotal);
+
+    // ==========================================
+    // WIDGET UPLOAD CLOUDINARY
+    // ==========================================
+    // 1. Widget Upload Foto
+    var widgetFoto = cloudinary.createUploadWidget({
+        cloudName: CLOUD_NAME,
+        uploadPreset: UPLOAD_PRESET,
+        sources: ['local', 'camera'],
+        clientAllowedFormats: ['image'],
+        multiple: false
+    }, (error, result) => {
+        if (!error && result && result.event === "success") {
+            document.getElementById("link_foto_raw").value = result.info.secure_url;
+            document.getElementById("btn_upload_foto").innerText = "Ganti Foto 📷";
+            document.getElementById("status_foto").style.display = "block";
+            document.getElementById("preview_foto").src = result.info.secure_url;
+            document.getElementById("preview_foto_container").style.display = "block";
+        }
+    });
+
+    // 2. Widget Upload Video (Dioptimasi agar lebih cepat)
+    var widgetVideo = cloudinary.createUploadWidget({
+        cloudName: CLOUD_NAME,
+        uploadPreset: UPLOAD_PRESET,
+        sources: ['local', 'camera'],
+        clientAllowedFormats: ['video'],
+        maxFileSize: 35000000, // Batasan ukuran file (35MB) agar upload lebih cepat
+        multiple: false
+    }, (error, result) => {
+        if (!error && result && result.event === "success") {
+            document.getElementById("link_video_raw").value = result.info.secure_url;
+            document.getElementById("btn_upload_video").innerText = "Ganti Video 🎬";
+            document.getElementById("status_video").style.display = "block";
+            document.getElementById("preview_video").src = result.info.secure_url;
+            document.getElementById("preview_video_container").style.display = "block";
+        }
+    });
+
+    // Pasang fungsi klik
+    document.getElementById("btn_upload_foto").addEventListener("click", () => widgetFoto.open(), false);
+    document.getElementById("btn_upload_video").addEventListener("click", () => widgetVideo.open(), false);
+
+    // ==========================================
+    // PROSES SUBMIT & VALIDASI WA
+    // ==========================================
+    const form = document.getElementById('orderForm');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // NANTI GANTI URL INI DENGAN URL CLOUDFLARE WORKER KAMU
+    const WORKER_URL = 'https://sementara.com/nanti-diganti'; 
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // 1. Validasi WA (Auto 62) di sisi form
+        let waInput = form.whatsapp.value.replace(/\D/g, ''); // Hapus semua selain angka
+        if (waInput.startsWith('0')) {
+            waInput = '62' + waInput.substring(1);
+        } else if (!waInput.startsWith('62')) {
+            alert("❌ Format Nomor WhatsApp salah. Mohon gunakan awalan 08 atau 628.");
+            return;
+        }
+        form.whatsapp.value = waInput; // Timpa nilai input dengan yang sudah bersih
+
+        // 2. Wajibkan Upload Foto & Video
+        if (!document.getElementById("link_foto_raw").value) {
+            alert("⚠️ Eits, kamu belum upload Foto nih!");
+            return;
+        }
+        if (!document.getElementById("link_video_raw").value) {
+            alert("⚠️ Eits, kamu belum upload Video nih!");
             return;
         }
 
-        btn.disabled = true;
-        btn.innerText = "Mengirim...";
+        // 3. Kirim Data
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Mengirim Pesanan... ⏳';
 
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        
-        // Format WhatsApp
-        let wa = data.whatsapp.replace(/\D/g, '');
-        data.whatsapp = wa.startsWith('0') ? '62' + wa.substring(1) : wa;
+        const formData = new FormData(form);
+        const obj = Object.fromEntries(formData.entries());
 
-        try {
-            const response = await fetch(WORKER_URL, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            });
-            if (response.ok) {
-                document.getElementById('form-content').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                window.scrollTo(0, 0);
-            } else { throw new Error(); }
-        } catch (err) {
-            alert("Gagal kirim. Pastikan Worker sudah aktif.");
-            btn.disabled = false;
-            btn.innerText = "Kirim Pesanan 🚀";
-        }
+        // Simulasi pengiriman data (karena Worker belum dibuat)
+        // Hapus kode simulasi ini nanti saat Worker sudah jadi
+        setTimeout(() => {
+            document.getElementById('form-content').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            window.scrollTo(0, 0);
+        }, 1500);
+
+        /* KODE ASLI UNTUK WORKER NANTI:
+        fetch(WORKER_URL, {
+            method: 'POST',
+            body: JSON.stringify(obj)
+        }).then(response => {
+            document.getElementById('form-content').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            window.scrollTo(0, 0);
+        }).catch(err => {
+            alert("Terjadi kesalahan jaringan.");
+            submitBtn.disabled = false;
+        });
+        */
     });
 </script>
+
 </body>
 </html>
