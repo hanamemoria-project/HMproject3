@@ -261,14 +261,14 @@
         }
     });
 
-        // 2. Widget Upload Video (Diperbarui agar Anti-Error)
+        // 2. Widget Upload Video (Sudah Diperbaiki)
     var widgetVideo = cloudinary.createUploadWidget({
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESET,
         sources: ['local', 'camera'],
-        resourceType: "video", // 👈 Tambahan penting: Memaksa sistem menerima Video
-        clientAllowedFormats: ['mp4', 'mov', 'webm', 'avi', 'video'], // 👈 Diperluas
-        maxChunkSize: 5000000, // 👈 Tambahan: Memecah video jadi part kecil saat diupload (5MB) biar lancar
+        resourceType: "auto", // 👈 Ubah jadi auto agar lebih fleksibel mengikuti preset
+        clientAllowedFormats: ['mp4', 'mov', 'webm', 'avi'], // 👈 Hapus kata 'video' yang bukan ekstensi
+        // maxChunkSize: 5000000, 👈 Hapus/Matikan baris ini, tidak perlu untuk file di bawah 100MB
         multiple: false
     }, (error, result) => {
         if (!error && result && result.event === "success") {
