@@ -261,14 +261,16 @@
         }
     });
 
-        // 2. Widget Upload Video (Sudah Diperbaiki)
+            // 2. Widget Upload Video (Diperbaiki)
     var widgetVideo = cloudinary.createUploadWidget({
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESET,
         sources: ['local', 'camera'],
-        resourceType: "auto", // 👈 Ubah jadi auto agar lebih fleksibel mengikuti preset
-        clientAllowedFormats: ['mp4', 'mov', 'webm', 'avi'], // 👈 Hapus kata 'video' yang bukan ekstensi
-        // maxChunkSize: 5000000, 👈 Hapus/Matikan baris ini, tidak perlu untuk file di bawah 100MB
+        clientAllowedFormats: ['video'],
+        
+        // NAIKKAN BATAS MENJADI 100MB (104.857.600 bytes) atau hapus baris ini sepenuhnya
+        maxVideoFileSize: 104857600, 
+        
         multiple: false
     }, (error, result) => {
         if (!error && result && result.event === "success") {
@@ -277,8 +279,6 @@
             document.getElementById("status_video").style.display = "block";
             document.getElementById("preview_video").src = result.info.secure_url;
             document.getElementById("preview_video_container").style.display = "block";
-        } else if (error) {
-            console.log("Error Upload Video: ", error);
         }
     });
 
