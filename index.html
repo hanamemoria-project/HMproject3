@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan - Hana Memoria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <style>
+        :root { --primary: #333333; --accent: #38bdf8; --bg: #fdfbf7; --card: #ffffff; --text-main: #2d3436; --text-muted: #636e72; --success: #10b981; }
+        body { background-color: var(--bg); font-family: 'Inter', sans-serif; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { background: var(--card); max-width: 500px; width: 100%; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #f1ede4; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 28px; margin: 0; color: var(--text-main); font-weight: 700; }
+        .form-group { margin-bottom: 24px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
+        input, select, textarea { width: 100%; padding: 14px 16px; border: 1.5px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: #fafafa; box-sizing: border-box; }
+        .upload-btn { background-color: #f8fafc; border: 2px dashed #cbd5e1; color: #475569; padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
+        .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .upload-success-text { color: var(--success); font-size: 13px; font-weight: 600; display: none; margin-top: 8px; text-align: center; }
+        .preview-box { display: none; margin-top: 15px; text-align: center; }
+        .preview-box img, .preview-box video { max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #eee; }
+        .submit-btn { width: 100%; padding: 18px; background: var(--primary); color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        #success-message { display: none; text-align: center; padding: 20px; }
+        .price-box { background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 24px; }
+        small { color: var(--text-muted); font-size: 11px; display: block; margin-top: 5px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="form-content">
+        <div class="header">
+            <h1>💖 Hana Memoria</h1>
+            <p>Menghidupkan kembali kenangan indah 💫</p>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label>👤 Nama Lengkap</label>
+                <input type="text" name="nama" required placeholder="Contoh: Budi Santoso">
+            </div>
+
+            <div class="form-group">
+                <label>📱 Nomor WhatsApp</label>
+                <input type="tel" name="whatsapp" required placeholder="0812xxxxxx">
+            </div>
+
+            <div class="form-group">
+                <label>🎁 Pilih Jenis Produk</label>
+                <select name="jenis" id="pilih_produk" required>
+                    <option value="Gantungan Kunci">Gantungan Kunci - Rp20.000</option>
+                    <option value="Figura" disabled>Figura (Soon) - Rp50.000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>🔢 Jumlah Pesanan</label>
+                <input type="number" name="jumlah" id="input_jumlah" value="1" min="1" required>
+            </div>
+
+            <div class="price-box">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 14px; font-weight: 600; color: #64748b;">Estimasi Total:</span>
+                    <span id="total_pembayaran" style="font-size: 18px; font-weight: 700; color: #333;">Rp20.000</span>
+                </div>
+            </div>
+
+            <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+
+            <div class="form-group">
+                <label>🖼️ Foto Terbaikmu</label>
+                <button type="button" id="btn_upload_foto" class="upload-btn">Pilih Foto 📷</button>
+                <span id="status_foto" class="upload-success-text">✅ Foto berhasil diunggah!</span>
+                <div id="preview_foto_container" class="preview-box"><img id="preview_foto" src=""></div>
+                <input type="hidden" name="link_foto_raw" id="link_foto_raw">
+            </div>
+
+            <div class="form-group">
+                <label>🎥 Video Kenangan</label>
+                <button type="button" id="btn_upload_video" class="upload-btn">Pilih Video 🎬</button>
+                <small>*Maksimal ukuran 30MB & durasi pendek untuk proses cepat.</small>
+                <span id="status_video" class="upload-success-text">✅ Video berhasil diunggah!</span>
+                <div id="preview_video_container" class="preview-box"><video id="preview_video" controls></video></div>
+                <input type="hidden" name="link_video_raw" id="link_video_raw">
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">Kirim Pesanan 🚀</button>
+        </form>
+    </div>
+
+    <div id="success-message">
+        <h2 style="color: var(--success);">✅ Pesanan Diterima!</h2>
+        <p>Terima kasih, admin kami akan segera menghubungi Anda untuk konfirmasi pembayaran.</p>
+    </div>
+</div>
+
+<script>
+    // --- KONFIGURASI ---
+    const CLOUD_NAME = "dg5sjaueq"; 
+    const UPLOAD_PRESET = "hm_preset"; 
+    const WORKER_URL = "ISI_DENGAN_URL_WORKER_KAMU"; 
+
+    const hargaProduk = {
+        "Gantungan Kunci": 20000,
+        "Figura": 50000
+    };
+
+    // --- FUNGSI HARGA ---
+    function hitungTotal() {
+        const jenis = document.getElementById('pilih_produk').value;
+        const jumlah = document.getElementById('input_jumlah').value || 1;
+        const total = (hargaProduk[jenis] || 0) * jumlah;
+
+        document.getElementById('total_pembayaran').innerText = new Intl.NumberFormat('id-ID', {
+            style: 'currency', currency: 'IDR', minimumFractionDigits: 0
+        }).format(total);
+    }
+
+    // --- FUNGSI UPLOAD ---
+    function createWidget(type, buttonId, statusId, previewId, containerId, hiddenInputId) {
+        return cloudinary.createUploadWidget({
+            cloudName: CLOUD_NAME,
+            uploadPreset: UPLOAD_PRESET,
+            sources: ['local', 'camera'],
+            clientAllowedFormats: type === 'foto' ? ['image'] : ['video'],
+            multiple: false,
+            maxFileSize: 30000000, // Batas 30MB
+            chunkSize: 5000000     // Percepat upload video
+        }, (error, result) => {
+            if (error) {
+                if (error.statusText === "File size too large") {
+                    alert("⚠️ File terlalu besar! Maksimal 30MB ya kak.");
+                }
+                return;
+            }
+            if (result && result.event === "success") {
+                document.getElementById(hiddenInputId).value = result.info.secure_url;
+                document.getElementById(statusId).style.display = "block";
+                document.getElementById(buttonId).innerText = "Ganti " + (type === 'foto' ? 'Foto' : 'Video');
+                document.getElementById(containerId).style.display = "block";
+                document.getElementById(previewId).src = result.info.secure_url;
+            }
+        });
+    }
+
+    const widgetFoto = createWidget('foto', 'btn_upload_foto', 'status_foto', 'preview_foto', 'preview_foto_container', 'link_foto_raw');
+    const widgetVideo = createWidget('video', 'btn_upload_video', 'status_video', 'preview_video', 'preview_video_container', 'link_video_raw');
+
+    // --- EVENT LISTENERS ---
+    document.getElementById("btn_upload_foto").addEventListener("click", () => widgetFoto.open());
+    document.getElementById("btn_upload_video").addEventListener("click", () => widgetVideo.open());
+    document.getElementById('pilih_produk').addEventListener('change', hitungTotal);
+    document.getElementById('input_jumlah').addEventListener('input', hitungTotal);
+
+    // --- KIRIM FORM ---
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        
+        if (!document.getElementById("link_foto_raw").value || !document.getElementById("link_video_raw").value) {
+            alert("Harap upload foto dan video terlebih dahulu!");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Mengirim...";
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Format WhatsApp
+        let wa = data.whatsapp.replace(/\D/g, '');
+        data.whatsapp = wa.startsWith('0') ? '62' + wa.substring(1) : wa;
+
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                document.getElementById('form-content').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else { throw new Error(); }
+        } catch (err) {
+            alert("Gagal kirim. Pastikan Worker sudah aktif.");
+            btn.disabled = false;
+            btn.innerText = "Kirim Pesanan 🚀";
+        }
+    });
+</script>
+</body>
+</html>
